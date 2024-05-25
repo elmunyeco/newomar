@@ -31,3 +31,4 @@ def listar_historias(request):
 def detalle_historia(request, id):
     historia = get_object_or_404(HistoriaClinica, id=id)
     return render(request, 'main/detalle_historia.html', {'historia': historia})
+
