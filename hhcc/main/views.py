@@ -6,13 +6,13 @@ def listar_historias(request):
     query = request.GET.get('campoBuscador', '')
     filtro = request.GET.get('tipoFiltro', '4')
     if filtro == '4':
-        historias = HistoriaClinica.objects.filter(documento__icontains(query))
+        historias = HistoriaClinica.objects.filter(documento__icontains=query)
     elif filtro == '3':
-        historias = HistoriaClinica.objects.filter(apellido__icontains(query))
+        historias = HistoriaClinica.objects.filter(apellido__icontains=query)
     elif filtro == '2':
-        historias = HistoriaClinica.objects.filter(nombre__icontains(query))
+        historias = HistoriaClinica.objects.filter(nombre__icontains=query)
     elif filtro == '1':
-        historias = HistoriaClinica.objects.filter(numero__icontains(query))
+        historias = HistoriaClinica.objects.filter(numero__icontains=query)
     else:
         historias = HistoriaClinica.objects.all()
 
@@ -31,4 +31,3 @@ def listar_historias(request):
 def detalle_historia(request, id):
     historia = get_object_or_404(HistoriaClinica, id=id)
     return render(request, 'main/detalle_historia.html', {'historia': historia})
-
