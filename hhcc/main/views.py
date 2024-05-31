@@ -31,3 +31,34 @@ def listar_historias(request):
 def detalle_historia(request, id):
     historia = get_object_or_404(HistoriaClinica, id=id)
     return render(request, 'main/detalle_historia.html', {'historia': historia})
+
+
+from .models import HistoriaClinica, Enfermedad, SignosVitales
+
+def detalle_historia_clinica(request, id):
+    historia_clinica = get_object_or_404(HistoriaClinica, pk=id)
+    enfermedades = Enfermedad.objects.all()
+    signos_vitales = SignosVitales.objects.filter(historia_clinica=historia_clinica).last()
+    estudios = [
+        {"nombre": "Ecocardiograma", "url": "https://estudioadb.com/index.php/eco/nuevoEstudio/{}".format(id)},
+        {"nombre": "Carotidas", "url": "https://estudioadb.com/index.php/carotidas/nuevoEstudio/{}".format(id)},
+        {"nombre": "Doppler", "url": "https://estudioadb.com/index.php/doppler/nuevoEstudio/{}".format(id)},
+        {"nombre": "Ecostress", "url": "https://estudioadb.com/index.php/stress/nuevoEstudio/{}".format(id)},
+    ]
+    context = {
+        'historia_clinica': historia_clinica,
+        'enfermedades': enfermedades,
+        'signos_vitales': signos_vitales,
+        'estudios': estudios,
+    }
+    return render(request, 'main/detalle_historia.html', context)
+
+def descargar_historia_clinica(request, id):
+    historia_clinica = get_object_or_404(HistoriaClinica, pk=id)
+    # Aquí debes implementar la lógica para generar el archivo a descargar
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="historia_clinica_{historia_clinica.id}.pdf"'
+    # Aquí deberías agregar el contenido del archivo PDF
+    response.write("Contenido del PDF de la historia clínica")
+    return response
+
