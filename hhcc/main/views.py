@@ -35,7 +35,7 @@ def detalle_historia(request, id):
 
 from .models import HistoriaClinica, Enfermedad, SignosVitales
 
-def detalle_historia_clinica(request, id):
+def detalle_historia(request, id):
     historia_clinica = get_object_or_404(HistoriaClinica, pk=id)
     enfermedades = Enfermedad.objects.all()
     signos_vitales = SignosVitales.objects.filter(historia_clinica=historia_clinica).last()
