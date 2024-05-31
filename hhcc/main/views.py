@@ -16,7 +16,7 @@ def listar_historias(request):
     else:
         historias = HistoriaClinica.objects.all()
 
-    paginator = Paginator(historias, 10)  # 10 historias por página
+    paginator = Paginator(historias, 14)  # 10 historias por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

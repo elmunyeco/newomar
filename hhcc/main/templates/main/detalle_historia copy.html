@@ -5,7 +5,7 @@
 {% block content %}
 <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <span class="table-header">{{ historia_clinica.nombre }} {{ historia_clinica.apellido }}</span>
+        {{ historia_clinica.nombre }} {{ historia_clinica.apellido }}
         <div>
             <a id="newEstudio" href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></a>
             <a href="{% url 'descargar_historia_clinica' historia_clinica.id %}" class="btn btn-sm btn-success"><i class="fa fa-download"></i></a>
@@ -55,11 +55,11 @@
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="enfermedades[]" value="3" id="enfermedad3">
-                                        <label class="form-check-label " for="enfermedad3">Diabetes tipo 2</label>
+                                        <label class="form-check-label" for="enfermedad3">Diabetes tipo 2</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="enfermedades[]" value="5" id="enfermedad5">
-                                        <label class="form-check-label 1" for="enfermedad5">Arritmia</label>
+                                        <label class="form-check-label" for="enfermedad5">Arritmia</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -151,10 +151,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 text-end">
-                                <button type="submit" class="btn btn-primary mt-2">Guardar Diagnósticos</button>
-                            </div>
-
+                            <button type="submit" class="btn btn-primary mt-2">Guardar Diagnóstico</button>
                         </form>
                     </div>
                 </div>
@@ -174,23 +171,23 @@
                 {% csrf_token %}
                 <input type="hidden" name="idHC" value="{{ historia_clinica.id }}">
                 <div class="mb-2">
-                    <label for="peso" class="form-label table-header">Peso</label>
+                    <label for="peso" class="form-label">Peso</label>
                     <input type="text" class="form-control" id="peso" name="peso" value="{{ signos_vitales.peso }}">
                 </div>
                 <div class="mb-2">
-                    <label for="colesterol" class="form-label table-header">Colesterol</label>
+                    <label for="colesterol" class="form-label">Colesterol</label>
                     <input type="text" class="form-control" id="colesterol" name="colesterol" value="{{ signos_vitales.colesterol }}">
                 </div>
                 <div class="mb-2">
-                    <label for="glucemia" class="form-label table-header">Glucemia</label>
+                    <label for="glucemia" class="form-label">Glucemia</label>
                     <input type="text" class="form-control" id="glucemia" name="glucemia" value="{{ signos_vitales.glucemia }}">
                 </div>
                 <div class="mb-2">
-                    <label for="presionSistolica" class="form-label table-header">PAS</label>
+                    <label for="presionSistolica" class="form-label">PAS</label>
                     <input type="text" class="form-control" id="presionSistolica" name="presionSistolica" value="{{ signos_vitales.presionSistolica }}">
                 </div>
                 <div class="mb-2">
-                    <label for="presionDiastolica" class="form-label table-header">PAD</label>
+                    <label for="presionDiastolica" class="form-label">PAD</label>
                     <input type="text" class="form-control" id="presionDiastolica" name="presionDiastolica" value="{{ signos_vitales.presionDiastolica }}">
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Guardar Signos Vitales</button>
