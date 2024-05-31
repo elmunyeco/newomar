@@ -62,3 +62,26 @@ def descargar_historia_clinica(request, id):
     response.write("Contenido del PDF de la historia clínica")
     return response
 
+def descargar_historia_clinica(request, id):
+    historia_clinica = get_object_or_404(HistoriaClinica, pk=id)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="historia_clinica_{historia_clinica.id}.pdf"'
+    response.write("Contenido del PDF de la historia clínica")
+    return response
+
+def nuevo_signo_vital(request):
+    # Lógica para guardar nuevo signo vital
+    pass
+
+def editar_diagnostico(request):
+    # Lógica para editar diagnóstico
+    pass
+
+def listar_indicaciones(request, id):
+    # Lógica para listar indicaciones
+    pass
+
+def listar_solicitudes(request, id):
+    # Lógica para listar solicitudes
+    pass
+

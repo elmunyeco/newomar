@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
         '104-129-131-13.cloud-xip.com',
+	'127.0.0.1',
+	'localhost',
 ]
 
 

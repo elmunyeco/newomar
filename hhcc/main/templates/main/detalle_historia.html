@@ -3,35 +3,99 @@
 {% block title %}Historia Clínica{% endblock %}
 
 {% block content %}
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
         Historia Clínica de {{ historia_clinica.nombre }} {{ historia_clinica.apellido }}
-        <div class="btn-group float-right">
-            <a id="newEstudio" href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></a>
+        <div>
+            <a id="newEstudio" href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i></a>
             <a href="{% url 'descargar_historia_clinica' historia_clinica.id %}" class="btn btn-sm btn-success"><i class="fa fa-download"></i></a>
         </div>
     </div>
-    <div class="panel-body">
-        <!-- El resto del contenido de la plantilla -->
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <h5>Datos del Paciente</h5>
+                <p><strong>Tipo Doc.:</strong> {{ historia_clinica.tipo_doc }}</p>
+                <p><strong>Nombre:</strong> {{ historia_clinica.nombre }}</p>
+                <p><strong>O. Social:</strong> {{ historia_clinica.o_social }}</p>
+                <p><strong>Fec. Nac.:</strong> {{ historia_clinica.fecha_nac }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>N° Doc.:</strong> {{ historia_clinica.n_doc }}</p>
+                <p><strong>Apellido:</strong> {{ historia_clinica.apellido }}</p>
+                <p><strong>N° Afiliado:</strong> {{ historia_clinica.n_afiliado }}</p>
+                <p><strong>Celular:</strong> {{ historia_clinica.celular }}</p>
+            </div>
+        </div>
+        <div class="mb-3">
+            <h5>Medicamentos del Paciente</h5>
+            <button class="btn btn-primary" onclick="window.location='{% url 'listar_indicaciones' historia_clinica.id %}'">Indicaciones</button>
+        </div>
+        <div class="mb-3">
+            <h5>Solicitudes de Prácticas</h5>
+            <button class="btn btn-primary" onclick="window.location='{% url 'listar_solicitudes' historia_clinica.id %}'">Solicitudes</button>
+        </div>
+        <div class="mb-3">
+            <h5>Diagnósticos</h5>
+            <form id="formDiagnostico" action="{% url 'editar_diagnostico' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="idHC" value="{{ historia_clinica.id }}">
+                <div class="form-check">
+                    {% for enfermedad in enfermedades %}
+                        <input class="form-check-input" type="checkbox" name="enfermedades[]" value="{{ enfermedad.id }}" id="enfermedad{{ enfermedad.id }}" {% if enfermedad.id in historia_clinica.enfermedades.all %}checked{% endif %}>
+                        <label class="form-check-label" for="enfermedad{{ enfermedad.id }}">{{ enfermedad.nombre }}</label><br>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Guardar Diagnóstico</button>
+            </form>
+        </div>
+        <div class="mb-3">
+            <h5>Signos Vitales</h5>
+            <form action="{% url 'nuevo_signo_vital' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="idHC" value="{{ historia_clinica.id }}">
+                <div class="mb-2">
+                    <label for="peso" class="form-label">Peso</label>
+                    <input type="text" class="form-control" id="peso" name="peso" value="{{ signos_vitales.peso }}">
+                </div>
+                <div class="mb-2">
+                    <label for="colesterol" class="form-label">Colesterol</label>
+                    <input type="text" class="form-control" id="colesterol" name="colesterol" value="{{ signos_vitales.colesterol }}">
+                </div>
+                <div class="mb-2">
+                    <label for="glucemia" class="form-label">Glucemia</label>
+                    <input type="text" class="form-control" id="glucemia" name="glucemia" value="{{ signos_vitales.glucemia }}">
+                </div>
+                <div class="mb-2">
+                    <label for="presionSistolica" class="form-label">PAS</label>
+                    <input type="text" class="form-control" id="presionSistolica" name="presionSistolica" value="{{ signos_vitales.presionSistolica }}">
+                </div>
+                <div class="mb-2">
+                    <label for="presionDiastolica" class="form-label">PAD</label>
+                    <input type="text" class="form-control" id="presionDiastolica" name="presionDiastolica" value="{{ signos_vitales.presionDiastolica }}">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Guardar Signos Vitales</button>
+            </form>
+        </div>
     </div>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="myModalLabel">Tipo de Estudio</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="myModalLabel">Tipo de Estudio</h5>
             </div>
             <div class="modal-body">
-                <ul class="tipoEstudios">
+                <ul class="list-unstyled">
                     {% for estudio in estudios %}
                         <li><a href="{{ estudio.url }}">{{ estudio.nombre }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
